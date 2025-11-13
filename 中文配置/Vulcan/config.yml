@@ -1,0 +1,4104 @@
+prefix: "&a&lVulcan &f»"
+
+alerts:
+  format: "%prefix% &f%player% &7触发检测 &f%check% %dev%&7(&f标签 %type%&7)%dev% &7[&4%vl%&7/&4%max-vl%&7]"
+  hover-message:
+    - "&7延迟: &c%ping% &8| &7TPS: &c%tps% &8| &7版本: &c%version% &8| &7客户端品牌: &c%client-brand%"
+    - ""
+    - "&7描述:"
+    - "&7%description%"
+    - ""
+    - "&7信息:"
+    - "&7%info%"
+    - ""
+    - "&7点击传送至玩家 &b%player%&7."
+  click-commands:
+    - "/vulcan clickalert %player%"
+  click-alert-command-commands:
+    - "tp %player%"
+  toggled-on-message: "%prefix% &7火神警报 &a启用&7!"
+  toggled-off-message: "%prefix% &7火神警报 &c禁用&7!"
+  print-to-console: true
+  console-format: "[Vulcan] %player% 触发检测 %check% %dev%(标签 %type%)%dev% (%vl%/%max-vl%)"
+  custom-commands: []
+  severity:
+    violations:
+      2: 4 # Values less than this number will be the color '1' below. Values greater than or equal to this number and less than '3' will be the color 2
+      3: 8 # Values greater than or equal to this number and higher than '2' will be the color '3' below
+      4: 12 # Values greater than or equal to this number and higher than '3' will be the color '4' below
+      5: 16 # Values greater than or equal to this number and higher than '4' will be the color '5' below
+      6: 16 # Values greater than or equal to this number and higher than '5' will be the color '6' below
+      7: 16 # Values greater than or equal to this number and higher than '6' will be the color '7' below
+      8: 16 # Values greater than or equal to this number and higher than '7' will be the color '8' below
+      9: 16 # Values greater than or equal to this number and higher than '8' will be the color '9' below
+      10: 16 # Values greater than or equal to this number and higher than '9' will be the color '10' below
+    colors: # This also supports hex color codes (in 1.16!+)
+      1: "&a" # The color that this severity should be, whatever is less than '2' in the section above
+      2: "&e" # The color that this severity should be, whatever is less than '3' and greater than or equal to '2' in the section above
+      3: "&6" # The color that this severity should be, whatever is less than '4' and greater than or equal to '3' in the section above
+      4: "&c" # The color that this severity should be, whatever is less than '5' and greater than or equal to '4' in the section above
+      5: "&4" # The color that this severity should be, whatever is less than '6' and greater than or equal to '5' in the section above
+      6: "&4" # The color that this severity should be, whatever is less than '7' and greater than or equal to '6' in the section above
+      7: "&4" # The color that this severity should be, whatever is less than '8' and greater than or equal to '7' in the section above
+      8: "&4" # The color that this severity should be, whatever is less than '9' and greater than or equal to '8' in the section above
+      9: "&4" # The color that this severity should be, whatever is less than '10' and greater than or equal to '9' in the section above
+      10: "&4" # The color that this severity should be, whatever is less than '11' and greater than or equal to '10' in the section above
+  # The symbol that will be displayed for the %dev% placeholder to denote experimental checks.
+  experimental-symbol: "*"
+
+log-file:
+  enabled: true
+  # The message that is logged when a player fails a check.
+  # Valid placeholders are %player% (player name), %max-vl% (max violations), %check% (name of check), %description% (check description),
+  # %version% (player's client version), %dev% (* for whether or not the check is experimental), %vl% (violation level),
+  # %ping% (the player's ping), %tps% (the server's TPS), and %type% (character denoting the type for the check, A, B, C, etc).
+  alert-message: "%player% 触发检测 %check% %dev%(Type %type%)%dev% [VL: %vl%] [延迟: %ping%] [TPS: %tps%] [版本: %version%] [客户端: %client-brand%]"
+  # The message that is logged when a player is punished for a check. Valid placeholders are the same as listed above.
+  # Further details about the punishment will also be logged into the punishments.txt file if enabled (see next section).
+  punishment-message: "%player% 触发检测 %check% %dev%(Type %type%)%dev% [VL: %vl%] [延迟: %ping%] [TPS: %tps%] [客户端: %client-brand%]"
+
+unloaded-chunks:
+  # Whether or not people should be setback for sending motion which is equal to unloaded chunks
+  setback-enabled: true
+  # Whether or not staff should be alerted, set to '' to disable this message
+  message: "%prefix% &c%player% &7被拉回，因为站在没有加载的区块上!"
+  # Max amount of ticks before someone gets set back
+  max-ticks: 40
+
+# This section deals with the punishments.txt file
+punishment-file:
+  # Whether or not the punishments.txt file is enabled.
+  enabled: true
+
+# This section deals with automatic violation resets
+violation-reset:
+  # Whether or not violations should reset automatically
+  enabled: true
+  # The interval (in minutes) in which violations should automatically be reset.
+  interval-in-minutes: 8
+  # Whether or not a message will be sent when violations are reset (this is only sent to staff who have /alerts enabled).
+  message-enabled: true
+  # The message that is sent (only to staff with /alerts enabled) when violations are reset.
+  message: "%prefix% &7Violations for all online players were reset!"
+
+# This section deals with client brand alerts and client brand blacklisting.
+client-brand-alerts:
+  # Whether or not Vulcan should even try to resolve the player's client brand - disabling this won't register
+  # the messaging channel at all.
+  resolve: true
+  # Whether or not client brand alerts are enabled.
+  enabled: true
+  # A list of client brands for which alerts will not be sent for. This doesn't have to match exactly, i.e
+  # 'lunar' will be able to pick up 'lunarclient', etc.
+  ignore-alerts-list:
+    - "vanilla"
+  # The message sent when a player joins the server. Valid placeholder are %player (player name), %prefix% (plugin prefix),
+  # %client-brand% (the user's client brand), and %client-version% (the user's client version).
+  message: "%prefix% &c%player% &7使用了 &f%client-brand% &7客户端进入服务器!"
+  # A list of client brands that will not be allowed and will be kicked automatically when they join. This uses
+  # string comparison so it doesnt need to be exact, for example, 'forge' will block Forge, 'lunar' will block lunar, etc.
+  blocked-client-brands: []
+  unallowed-client-brand-kick-message: "&c你不能使用 %client-brand% 客户端进入服务器!"
+  # Whether or not client brand alerts should be sent to the console
+  console: true
+  # The message that should be printed to the console (if the above option is enabled)
+  console-message: "[Vulcan] %player% 进入服务器，使用客户端 %client-brand%!"
+  # Whether or not the client brand whitelist should be enabled. Anyone joining with a client brand that is not
+  # included in the list below will not be allowed to join
+  whitelist-enabled: false
+  # The client brands that will be whitelisted This uses string comparison so it doesnt need to be exact, for example,
+  # 'forge' will block Forge, 'lunar' will block lunar, etc.
+  whitelisted-client-brands: []
+
+connection:
+  invalid:
+    # PLEASE do not disable this without contact us. Disabling this will lock players into internal states that will
+    # either cause checks to false flag them or lock them into internal states where they will not flag things at all.
+    # In a perfect world, there should never be any issues with this. PLEASE contact us via Discord if you are having
+    # issues with players being kicked for this as it is almost definitely a plugin incompatibility. YOU HAVE BEEN WARNED!
+    enabled: true
+    kick-message: "Internal Exception: io.netty.handler.timeout.ReadTimeoutException"
+    staff-alert-message: "%prefix% &c%player% &7因发送无效的确认包而被踢出！ (ID: &c%id%&7)"
+    console-alert-message: "[Vulcan] &c%player% &7因发送无效的确认包而被踢出！ (ID: &c%id%&7)"
+  out-of-order:
+    # PLEASE do not disable this without contact us. Disabling this will lock players into internal states that will
+    # either cause checks to false flag them or lock them into internal states where they will not flag things at all.
+    # In a perfect world, there should never be any issues with this. PLEASE contact us via Discord if you are having
+    # issues with players being kicked for this as it is almost definitely a plugin incompatibility.
+    enabled: true
+    kick-message: "Internal Exception: io.netty.handler.timeout.ReadTimeoutException"
+    staff-alert-message: "%prefix% &c%player% &7因发送了一份无效的确认数据包而被踢了出去! (&c%id% &7!= &c%last-id%&7)"
+    console-alert-message: "[Vulcan] %player% 因发送了一份无效的确认数据包而被踢了出去! (%id% != %last-id%)"
+  no-response:
+    delay-in-seconds: 30
+    kick-message: "Internal Exception: io.netty.handler.timeout.ReadTimeoutException"
+    staff-alert-message: "%prefix% &c%player% &7因为没有回复确认数据包而被踢出! (&c%delay%&7ms)"
+    console-alert-message: "[Vulcan] %player% 因为没有回复确认数据包而被踢出! (&c%delay%&7ms)"
+  keepalive:
+    kick-enabled: true
+    max-delay: 45000
+    kick-message: "Internal Exception: io.netty.handler.timeout.ReadTimeoutException"
+    staff-alert-message: "%prefix% &c%player% &7因为没有回复心跳包而被踢出服务器! &7(&c%delay%ms&7)"
+    console-message: "[Vulcan] &c%player% &7因为没有回复心跳包而被踢出服务器! &7(&c%delay%ms&7)"
+  max-ping:
+    kick-enabled: true
+    max-ping: 20000
+    max-ticks: 88
+    kick-message: "Internal Exception: io.netty.handler.timeout.ReadTimeoutException"
+    staff-alert-message: "%prefix% &c%player% &7因为延迟过高而被踢出! &7(&c%ping%ms&7)"
+    console-message: "[Vulcan] &c%player% &7因为延迟过高而被踢出! &7(&c%ping%ms&7)"
+
+# This section deals with punishments
+punishments:
+  # The message that is sent when a player is punished (only sent to staff with /alerts enabled)
+  message: "%prefix% &c%player% &7触发检测 &f%check% &7(&f标签 %type%&7) &7[&4x%vl%&7]"
+  # The message that will be broadcast to the whole server when a player is punished
+  broadcast:
+    - "&7&m---»--*-------------------------------------*--«---"
+    - "&cVulcan &7检测到玩家 &c%player% &7正在作弊，已经将其从服务器里删除."
+    - "&7&m---»--*-------------------------------------*--«---"
+
+#Judgement Day options
+judgement-days:
+  started-broadcast:
+    - "&7&m---»--*-------------------------------------*--«---"
+    - "&cVulcan 审判日 v1 已经开始..."
+    - "&7&m---»--*-------------------------------------*--«---"
+  ended-broadcast:
+    - "&7&m---»--*-------------------------------------*--«---"
+    - "&c审判日已经结束... %amount% 名玩家已经被惩罚."
+    - "&7&m---»--*-------------------------------------*--«---"
+  commands:
+    - ban %player% &c[Vulcan] Judgement Day v1
+  broadcast:
+    - "&7&m---»--*-------------------------------------*--«---"
+    - "&c%player% &7被禁止，原因 &c[Vulcan] 审判日 v1&7."
+    - "&7&m---»--*-------------------------------------*--«---"
+  cooldown: 1000
+  run-at-interval: false
+  interval: 36000
+
+freeze:
+  # A customizable list of commands that will be executed when a player logs out while frozen
+  logged-out-while-frozen-commands: []
+
+# Whether or not ghost block fix should be enabled. Players will be set back and the blocks will be updated.
+ghost-blocks-fix:
+  # Whether or not ghost block fix should be enabled at all.
+  enabled: true
+  # Whether or not Vulcan should try to account for ghost water blocks
+  ghost-water-fix: true
+  # Below this TPS this option won't do anything. Set to -1 to disable
+  minimum-tps: 18.5
+  # Whether players on older than 1.17 client versions will be ignored from ghost blocks at y1 due to ViaVersion settings
+  ignore-legacy-via: true
+  # Buffer settings
+  buffer:
+    max: 3
+    decay: .1
+  # Whether or not setbacks for ghost blocks should be enabled.
+  setback: true
+  # Whether or not block change packets should be sent around the bottom of the player reupdating the blocks below them
+  update-blocks: true
+  # How many ticks should they be in the air before being flagged as on a ghost block (default 3)
+  ticks: 3
+  # Whether or not the player will get sent a message when ghost blocks around them are updated
+  message-enabled: false
+  # The message that will get sent to players when they're on a ghost block (if the above is enabled)
+  message: "&cYou were walking on a ghost block. It has been updated!"
+  # Whether or not staff should be sent a message when someone is setback for being on a ghost block
+  staff-message-enabled: true
+  # The message that will be sent to staff when a player's position is updated for being on a ghost block.
+  staff-message: "%prefix% &c%player%'&7位置因在幽灵方块上强制更新! (%world%, %x%, %y%, %z%) &7[%ticks%]"
+  # Whether or not the ghost block message should be printed to console
+  print-to-console: true
+  # The message that is printed to console if the above is true.
+  console-message: "%player% 位置因在幽灵方块上强制更新! (%world%, %x%, %y%, %z%) &7[%ticks%]"
+
+# Message options - these are all pretty self explanatory.
+messages:
+  no-permission: "&cYou don't have permission to execute this command!"
+  cant-execute-from-console: "&cYou can't execute this command from console!"
+  ban-command-syntax: "%prefix% &7Proper Syntax: &c/vulcan ban (player)&7."
+  kb-command-syntax: "%prefix% &7Proper Syntax: &c/vulcan knockback (player) &8| &c/vulcan kb (player)&7."
+  profile-command-syntax: "%prefix% &7Proper Syntax: &c/vulcan profile (player)&7."
+  jday-command-syntax: "%prefix% &7Proper Syntax: &c/jday add (player) &8| &c/jday execute &8| &c/jday list &8| &c/jday remove (player)&7."
+  reload-success: "%prefix% &aSuccessfully reloaded Vulcan!"
+  invalid-target: "%prefix% &cThe specified player could not be found!"
+  kb-test-success: "%prefix% &aSuccessfully performed knockback test on %player%!"
+  jday-no-pending-bans: "%prefix% &cThere are no pending bans!"
+  jday-added-to-list: "%prefix% &c%player% &7was successfully added to the list!"
+  reset-command: "%prefix% &7Violations for all online players were reset!"
+  disable-check-command-syntax: "%prefix% &cProper Syntax: /vulcan disablecheck (check name) - case sensitive."
+  invalid-check: "%prefix% &cInvalid check name! Examples: AimA, BadPacketsF, AutoClickerJ."
+  removed-check: "%prefix% &cDisabled check %check%!"
+  violations-command-syntax: "%prefix% &cProper Syntax: /vulcan violations (player)"
+  no-logs: "%prefix% &cThis player set off no logs!"
+  cps-command-syntax: "%prefix% &cProper Syntax: /vulcan cps (player)"
+  connection-command-syntax: "%prefix% &cProper Syntax: /vulcan connection (player)"
+  logs-command-syntax: "%prefix% &cProper Syntax: /logs (player) (page)"
+  no-logs-file: "%prefix% &cThere is no logs file!"
+  logs-command-no-logs: "%prefix% &cThere were no logs found for %player%!"
+  no-page: "%prefix% &cThere is no page %page% for %player%!"
+  update-available: "%prefix% &7A new update for &cVulcan &7is available! (&cv%new-version%&7)"
+  latest-version: "%prefix% &aYou are running the latest version of Vulcan!"
+  injection-failure: "You joined too quickly. Please try again!"
+  frozen: "&cYou are frozen! Please await instructions from staff."
+  logged-out-while-frozen: "%prefix% &c%player% logged out while frozen!"
+  froze: "%prefix% &7You froze &a%player%&7!"
+  unfroze: "%prefix% &7You unfroze &c%player%!"
+  freeze-command-syntax: "%prefix% &cProper Syntax: /vulcan freeze (player)"
+  shuffle-command-syntax: "%prefix% &cProper Syntax: /vulcan shuffle (player)"
+  shuffled-hotbar: "%prefix% &aSuccessfully shuffled hotbar for %player%!"
+  rotate-command-syntax: "%prefix% &cProper Syntax: /vulcan rotate (player)"
+  randomly-rotated: "%prefix% &aSuccessfully rotated %player%!"
+  reset-command-syntax: "%prefix% &cProper Syntax: /vulcan reset (player)"
+  violations-reset: "%prefix% &aSuccessfully reset violations for %player%!"
+  unknown-command: "%prefix% &cUnknown command!"
+  unfroze-staff-broadcast: "%prefix% &c%player% &7was unfrozen by &c%staff%&7!"
+  froze-staff-broadcast: "%prefix% &c%player% &7was frozen by &c%staff%&7!"
+  removed-from-jday: "%prefix% &aSuccesfully removed %player% from Judgement Day!"
+  jday-remove-syntax: "%prefix% &cProper Syntax: /jday remove (player)"
+  punishlogs-syntax: "%prefix% &cProper Syntax: /punishlogs (player)"
+  sent-test-alert: "%prefix% &aSuccessfully executed a test alert!"
+  description-command-syntax: "%prefix% &cProper Syntax: /vulcan description (checkname) "
+
+# Command configuration options.
+commands:
+  # Vulcan help command message.
+  help:
+    - "&7&m---»--*-------------------------------------*--«---"
+    - "&cVulcan 反作弊 v%version% by &cfrep (.frap)"
+    - "&r"
+    - "&c/vulcan help &8- &7打开这条帮助"
+    - "&c/vulcan profile &8 - &7查看玩家."
+    - "&c/vulcan ban (玩家名) &8- &7封禁玩家."
+    - "&c/vulcan reload &8- &7重载反作弊配置文件"
+    - "&c/vulcan disablecheck (检测名) &8- &7禁用该检测 (区分大小写)."
+    - "&c/vulcan violations (玩家名) &8- &7显示一名指定玩家的所有违规."
+    - "&c/vulcan cps (玩家名) &8- &7显示一名指定玩家当前的CPS."
+    - "&c/vulcan kb (玩家名) &8- &7对玩家进行击退测试."
+    - "&c/vulcan checks &8- &7查看所有启用的检测."
+    - "&c/vulcan connection (玩家名) &8- &7显示玩家的链接信息."
+    - "&c/vulcan freeze (玩家名) &8- &7冻结/解冻 一名玩家."
+    - "&c/vulcan rotate (玩家名) &8- &7随机旋转玩家的头部."
+    - "&c/vulcan shuffle (玩家名) &8- &7随机打乱玩家的背包库存."
+    - "&c/vulcan top &8- &7显示每个类别违规最高类型的玩家."
+    - "&c/vulcan testalert &8- &7测试 Discord webhooks/集成."
+    - "&r"
+    - "&c/jday add (玩家名) &8- &7添加玩家在审判日名单."
+    - "&c/jday execute &8- &7执行审判日."
+    - ""
+    - "&c/alerts &8- &7打开和关闭作弊警报."
+    - ""
+    - "&c/logs (玩家名) (页数) &8- &7打开和关闭详细通知."
+    - "&c/punishlogs (玩家名) &8- &7检测玩家受到的惩罚"
+    - "&7&m---»--*-------------------------------------*--«---"
+  ban:
+    # The commands that will be executed when /vulcan ban (player) is executed
+    commands:
+      - "ban %player% &c非正常的游戏行为封禁"
+    # The messages that will be broadcast when /vulcan ban (player) is executed
+    broadcast:
+      - "&7&m---»--*-------------------------------------*--«---"
+      - "&cVulcan &7has detected &c%player% &7to be cheating and has removed them from the network."
+      - "&7&m---»--*-------------------------------------*--«---"
+  # Options for the /vulcan profile (name) command
+  profile:
+    - "&7&m---»--*-------------------------------------*--«---"
+    - "&cVulcan 高级信息 - %player%:"
+    - " &8» &7%uuid%"
+    - ""
+    - "&7版本: &c%client-version%"
+    - "&7客户端品牌: &c%client-brand%"
+    - "&7灵敏度: &c%sensitivity%%"
+    - "&7最后的点击速度: &c%cps% CPS"
+    - ""
+    - "&7完全违规 (&c%total-violations%&7):"
+    - " &8» &7战斗: &c%combat-violations%"
+    - " &8» &7移动: &c%movement-violations%"
+    - " &8» &7玩家: &c%player-violations%"
+    - ""
+    - "&7碰撞:"
+    - "&8» &7最近的方块: %nearby-blocks%"
+    - "&8» &7最近的实体: %nearby-entities%"
+    - ""
+    - "&7药水效果: %potion-effects%"
+    - "&7&m---»--*-------------------------------------*--«---"
+  cps: "%prefix% &7最后的点击速度 &c%player%&7: &c%cps%"
+  connection:
+    - "&7&m---»--*-------------------------------------*--«---"
+    - "&c链接信息 %player%:"
+    - ""
+    - "&7交换延迟: &c%transaction-ping%ms"
+    - "&7心跳包延迟: &c%keepalive-ping%ms"
+    - ""
+    - "&7最后回复的延迟: &c%last-replied-transaction%ms ago"
+    - "&7排队回复数据包: &c%queued-transactions%"
+    - ""
+    - "&7飞行延迟: &c%flying-delay%ms"
+    - "&7&m---»--*-------------------------------------*--«---"
+  logs:
+    color: "&7"
+    header-footer: "&7&m---»--*--&r&7[ Logs for &c%player% &7(&c%page%&8/&c%max-pages%&7) &7]&7&m--*--«---"
+  top:
+    - "&7&m---»--*-------------------------------------*--«---"
+    - "&c违规排行榜:"
+    - " &8- &7%total-1-name% &7(&c%total-1-violations% VL&7)"
+    - " &8- &7%total-2-name% &7(&c%total-2-violations% VL&7)"
+    - " &8- &7%total-3-name% &7(&c%total-3-violations% VL&7)"
+    - " &8- &7%total-4-name% &7(&c%total-4-violations% VL&7)"
+    - " &8- &7%total-5-name% &7(&c%total-5-violations% VL&7)"
+    - ""
+    - "&c战斗违规排行榜:"
+    - " &8- &7%combat-1-name% &7(&c%combat-1-violations% VL&7)"
+    - " &8- &7%combat-2-name% &7(&c%combat-2-violations% VL&7)"
+    - " &8- &7%combat-3-name% &7(&c%combat-3-violations% VL&7)"
+    - " &8- &7%combat-4-name% &7(&c%combat-4-violations% VL&7)"
+    - " &8- &7%combat-5-name% &7(&c%combat-5-violations% VL&7)"
+    - ""
+    - "&c移动违规排行榜:"
+    - " &8- &7%movement-1-name% &7(&c%movement-1-violations% VL&7)"
+    - " &8- &7%movement-2-name% &7(&c%movement-2-violations% VL&7)"
+    - " &8- &7%movement-3-name% &7(&c%movement-3-violations% VL&7)"
+    - " &8- &7%movement-4-name% &7(&c%movement-4-violations% VL&7)"
+    - " &8- &7%movement-5-name% &7(&c%movement-5-violations% VL&7)"
+    - ""
+    - "&c其他违规排行榜:"
+    - " &8- &7%player-1-name% &7(&c%player-1-violations% VL&7)"
+    - " &8- &7%player-2-name% &7(&c%player-2-violations% VL&7)"
+    - " &8- &7%player-3-name% &7(&c%player-3-violations% VL&7)"
+    - " &8- &7%player-4-name% &7(&c%player-4-violations% VL&7)"
+    - " &8- &7%player-5-name% &7(&c%player-5-violations% VL&7)"
+    - "&7&m---»--*-------------------------------------*--«---"
+  jday:
+    list-header-footer: "&7&m---»--*-------------------------------------*--«---"
+    list-format: " &8- &7%name%"
+  punishlogs:
+    header-footer: "&7&m---»--*--&r&7[ 玩家 &c%player% &7的惩罚日志 ]&7&m--*--«---"
+  description: "%prefix% &7Description for &c%check%&7: %description%"
+
+punishment-statistics-broadcast:
+  enabled: false
+  interval: 18000
+  broadcast:
+    - "&7&m---»--*-------------------------------------*--«---"
+    - "&7在过去的7天里, &cVulcan &7封禁了 &c%amount% &7名违规玩家."
+    - "&7&m---»--*-------------------------------------*--«---"
+
+# Some simple settings
+settings:
+  # Whether or not alerts will automatically be enabled on-join for players who have the permission "vulcan.alerts"
+  toggle-alerts-on-join: true
+  # Whether or not the severity placeholder should be based off of per-check violations or the total violations of the player
+  per-check-severities: true
+  # Whether or not cinematic mode will be checked for certain aim checks. This isn't really a big deal and can be
+  # left disabled as this will pretty much NEVER happen unless done intentionally. Enabling this will slow
+  # detection speeds for certain checks.
+  cinematic: false
+  # This is just here in case I forget to remove a debug message when I post an update. If I forget to remove a debug
+  # message and you see [Vulcan Debug] on your server, disable this (it won't effect you if this is enabled or disabled
+  # unless I forget to remove a debug message, but if you see [Vulcan Debug] in chat, then set this to false and reload).
+  debug: true
+  # Whether or not 'A new update is available!' message will be set on join for players with 'vulcan.admin' permission
+  check-for-updates: true
+  # A setting for PacketEvents, we may ask you to change this if you're having issues injecting. If everything is working
+  # fine, don't touch this.
+  inject-early: true
+  # This is the time (in ticks - 20 ticks per second - default value is 80 (4 seconds)) of how long players should be exempt from certain
+  # checks after velocity gets applied to them via another plugin or something (such as Launchpads, crate plugins, etc etc).
+  max-velocity-ticks: 50
+  # This is the max file size (in KB) before the violations.txt should be zipped and put into the logs folder
+  max-logs-file-size: 7500
+  # If you have a bungee network and want to have a specific server name for punishment/alert messages, etc
+  server-name: "Default"
+  # Whether or not alert messages should be sent on the main thread or asynchronously. If your server is on bungee, it is recommended to keep this
+  # disabled as sending large chat component messages with so much info (hover, click commands, etc) like the alert commands can
+  # sometimes cause people to be kicked for 'The server you were on has went down' or something.
+  # TLDR:
+  # - Bungeecord Networks: leave this FALSE
+  # - Single servers: set this to TRUE to save some performance
+  async-alerts: false
+  enable-api: true
+  # Whether or not the update checker should be enabled
+  update-checker: true
+  # The delay in milliseconds (1000ms = 1 second)
+  punishment-delay: 10000
+  # Whether or not Vulcan should automatically ignore Bedrock players using Floodgate's API.
+  ignore-floodgate: true
+  # This is highly highly recommended to keep false as it can be spoofed by the client, however, if you're using Geyser and
+  # for whatever reason can't get Floodgate to work, then enable this. If you have floodgate-bukkit on your server
+  # and Geyser is working fine, then don't touch this.
+  ignore-flags-geyser-client-brand: false
+  # How long we should wait for everything to initialize before players start being checked (in milliseconds). Default
+  # value is 2500ms.
+  join-check-wait-time: 2500
+  # Whether or not players with UUID's starting with '000000' should be ignored and not flagged - used for exemptions of
+  # Geyser players if all else fails.
+  ignore-geyser-uuids: true
+  # Whether or not we should ignore flags for players whose usernames start with a certain character/string of characters
+  ignore-geyser-prefixes: true
+  # The string to be ignored - all players names who start with a * will not be flagged (case sensitive if not symbols)
+  ignore-geyser-prefix: "*"
+  # The max violation (violations above this won't be sent)
+  max-alert-violation: 250
+  # How long should people be exempt from checks when they were in /fly (default = 40 ticks, 2 seconds)
+  flight-cooldown: 40
+  # What the /vulcan top command should display if there aren't enough users for it to sort
+  top-command-unresolved: "Unresolved"
+  # Whether or not players who are in the judgement day queue should be able to be banned again.
+  ignore-if-in-judgement-day: false
+  # Whether or not players who join with Vivecraft should be ignored. Be careful with this as it can be spoofed.
+  ignore-vivecraft: false
+  # Scaffolding are really broken blocks, whether or not we should be more lenient for them for certain checks.
+  lenient-scaffolding: true
+  # Whether or not bStats should be loaded
+  bstats: true
+  # Whether or not Vulcan should account for entity collisions
+  entity-collision: true
+  # Whether or not Vulcan should hook into mcMMO if it is available.
+  hook-mcmmo: true
+  # Whether or not Vulcan should hook into MythicMobs if it is available.
+  hook-mythicmobs: true
+  # Whether or not Vulcan should hook into GSit if it is available
+  hook-gsit: true
+  # Whether or not Vulcan should hook with Brewery if available
+  hook-brewery: true
+  # Whether or not Vulcan should ignore alerts for violations which are greater than the max violations threshold
+  ignore-alerts-over-max-violations: false
+  # The amount greater than the max violations that should be ignored (example, 3 would mean that if the max violations
+  # was set to 10, alerts greater than VL 13 would be ignored)
+  ignore-alerts-over-max-violations-amount: 3
+  # Whether or not Vulcan should warn you if you may be using an incompatible spigot fork.
+  incompatability-manager: true
+  # Whether or not Vulcan should send plugin messages
+  plugin-messaging: true
+  # Whether or not Vulcan should setback players when they are lower than their last onGround position (this can lead to
+  # things such as anti-voids, so not particularly recommended if you have something like a SkyWars/BedWars server)
+  dont-setback-lower-positions: false
+  # Minimum ticks existed before a player is chcked, similar to join-check-wait-time above
+  min-ticks-existed: 3
+  # Whether or not we should calculate the distance between the player and WorldBorder to prevent false flags in the
+  # Velocity checks. Only needed on very specific servers.
+  velocity-world-border: false
+  # Whether or not Vulcan should account for having 10 kabillion entities in one place that launches you very fast and could
+  # 'false' some checks. Will not matter on 99% of servers
+  entity-cram-fix-enabled: false
+  # The amount of entities that should be accounted for
+  entity-cram-entities-amount: 10
+  # How long the checks should be exempted for if the above entities are encountered
+  entity-cram-exempt-ticks: 30
+  # Support for attribute modifiers
+  handle-attributes: true
+
+  ######################################################################################################################
+  # Discord WEBHOOK Configuration                                                                                      #
+  ######################################################################################################################
+discord-webhook:
+  # Whether or not cooldown is enabled
+  cooldown: false
+  # How often the counter should reset in ticks (default = 12000 ticks or 10 mins, 20 ticks = 1 second)
+  cooldown-reset-ticks: 12000
+  # Max webhooks allowed in the above time period
+  cooldown-max-webhooks: 100
+  # The section for the Discord Webhook alerts
+  alerts:
+    # Whether or not Discord Webhook Alerts should be enabled
+    enabled: false
+    # Paste the URL to your webhook here. For how to create a webhook, please see https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
+    url: "insert-webhook-url-here"
+    # The avatar for the webhook
+    avatar: "https://i.imgur.com/JPG1Kwk.png"
+    # Thumbnail for the webhook
+    thumbnail: "http://cravatar.eu/avatar/%name%/64.png"
+    # Colors for the webhook (use a website like https://www.rapidtables.com/web/color/RGB_Color.html to pick colors)
+    color-r: 252
+    color-g: 140
+    color-b: 3
+    # Username of the webhook
+    username: "Vulcan"
+    # Title of the webhook
+    title: "Vulcan Alert"
+    # Description of the webhook
+    description: "**%player%** failed %check% %dev%(Type %type%)%dev% [%vl%/%max-vl%]"
+    # Content will send text outside of the embed, so you can tag roles or people for example.
+    content: ""
+    information-field: false
+    client-version-field: true
+    client-brand-field: true
+    server-name-field: false
+    description-field: false
+    location-field: true
+    ping-tps-field: true
+  punishments:
+    # Same settings and explanations as above
+    enabled: false
+    url: "insert-webhook-url-here"
+    avatar: "https://i.imgur.com/JPG1Kwk.png"
+    thumbnail: "http://cravatar.eu/avatar/%name%/64.png"
+    color-r: 255
+    color-g: 0
+    color-b: 0
+    username: "Vulcan"
+    title: "Vulcan Punishment"
+    description: "**%player%** was punished for %check% (Type %type%) [VL: %vl%]"
+    content: ""
+    description-field: false
+    server-name-field: false
+    client-brand-field: false
+    client-version-field: false
+    ping-tps-field: false
+    location-field: false
+
+########################################################################################################################
+# Check Configuration.
+# enabled: Whether or not the check is enabled or disabled
+# punishable: Whether or not the commands will be executed when the max-violations is reached
+# broadcast-punishment: Whether or not the punishment broadcast (found above) should be sent when the max-violations is reached
+# max-violations: The max violations threshold; when this is hit, the punishment-commands will be executed (if punishable is set to true)
+# alert-interval: How often alerts for this check will be sent, for example, 2 will only send alerts for VL 2, 4, 6, 8, 3 will send alerts
+#                 for violations 3, 6, 9, 12, etc. If you want to reduce the spam in the chat, then you can use this.
+# dont-alert-until: This will make it so that only alerts greater than this value are sent. For example, if you set this to 6,
+#                   then only alerts 6 and higher would be sent (anything less than that is still logged, but not sent to staff)
+# maximum-ping: 100000 is the default value and your ping can't go higher than this without being kicked for KeepAlive timeout.
+#               You won't really ever need to change this as ping doesn't really effect any checks and this can open the possibility
+#               of bypasses with ping spoof, however, the option is here nonetheless.
+# minimum-tps: If the TPS is lower than this value, the check won't fire.
+#
+# buffer:
+# max: Buffer is how many times the player needs to 'fail' the check in order to actually alert. This is basically how
+#         sensitive the check is. I recommend keeping these as default, but if you want the anticheat to be a little more
+#         sensitive or less sensitive you can play with them a little. Don't set them too low or too high or else there will be
+#         too many false flags or it just won't flag at all.
+# multiple: This is what the buffer gets multiplied by after an alert is sent. For example, if you set it to 1, then it wouldn't
+#           do anything since (1 * x) is just x. You can also change this if you want alerts to happen slower, for example
+#           setting it to 0 would make it so when a player reaches the max buffer of 5 for example, their buffer is set to 0
+#           instead of 2.5 (as it would be if the multiple was .5 and not 0.
+# decay: How much the buffer should decay if the player doesn't fail the check. Again, don't really touch this if you don't
+#        know what you're doing as you can cause checks to either not flag at all or false positive a lot. You need to have a
+#        balanced ratio of increasing buffers and decaying the buffer. What we mean by this is that having the decay as 1
+#        and increasing the buffer by 1 isn't really balanced as you can just cheat for a tick and then not do anything and
+#        you will bypass. On the other hand, a buffer decay of .1 against an increase of one is much more balanced as it ensures
+#        that people who constantly fail the checks will continue to alert and be punished yet any little errors will be
+#        filtered out and not alert.
+# hotbar-shuffle:
+# enabled: Whether or not this feature will be enabled. For me.frep.vulcan.spigot.check.impl.combat checks, if the player is failing the check, this will
+#          shuffle around the item in their hand. Funny to watch as they try to frantically figure out what's going on
+# minimum-vl-to-shuffle: The minimum violations that a player has to be at in order for this feature to function.
+# shuffle-every: Interval at which this feature will be executed.
+#
+# random-rotation:
+# enabled: Whether or not this feature will be enabled. When players fail me.frep.vulcan.spigot.check.impl.combat checks, their head will be thrown around
+#          to random locations. Again, pretty funny to watch.
+# minimum-vl-to-randomly-rotate: Minimum violations which the player needs to be at in order for this feature to work.
+# rotate-every: Interval at which this will be executed.
+# For any questions on configuration, please join our Discord or send me on a pm! https://discord.gg/SCNuwUG | frap#0002
+########################################################################################################################
+checks:
+  combat:
+    aim:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f NlGLaU"
+        buffer:
+          max: 3
+          multiple: .75
+          decay: .5
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 8
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 8hkp18"
+        buffer:
+          max: 6
+          multiple: .5
+          decay: .65
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f SRlOGq"
+        buffer:
+          max: 5
+          multiple: .5
+          decay: .75
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      d:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f O1RgHZ"
+        buffer:
+          max: 8
+          multiple: .5
+          decay: .75
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      e:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Q23m8A"
+        buffer:
+          max: 4
+          multiple: .75
+          decay: .25
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      f:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Pxco5A"
+        buffer:
+          max: 12
+          multiple: .5
+          decay: .45
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      g:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 9zN3dL"
+        buffer:
+          max: 4
+          multiple: .5
+          decay: .75
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      h:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f pkAoas"
+        buffer:
+          max: 7
+          multiple: .5
+          decay: .75
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      i:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Q3KaCI"
+        buffer:
+          max: 7
+          multiple: .5
+          decay: .75
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      k:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f vE9Eon"
+        buffer:
+          max: 6
+          multiple: .5
+          decay: .25
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      l:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f wIZrtN"
+        buffer:
+          max: 10
+          multiple: .45
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      m:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f hr5bPu"
+        buffer:
+          max: 2
+          multiple: .4
+          decay: .25
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      n:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f CFnZjO"
+        buffer:
+          max: 5
+          multiple: .5
+          decay: .5
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      o:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f SxL0pK"
+        buffer:
+          max: 5
+          multiple: .5
+          decay: .25
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      p:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f xAumft"
+        buffer:
+          max: 2
+          multiple: .4
+          decay: .25
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      q:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f EkZvks"
+        buffer:
+          max: 6
+          multiple: .5
+          decay: .25
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      r:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f NpBYZj"
+        buffer:
+          max: 20
+          multiple: .3
+          decay: .5
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      s:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 2Rx1vs"
+        buffer:
+          max: 20
+          multiple: .25
+          decay: .5
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      u:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f WSL8bM"
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      w:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f RRqbTg"
+        buffer:
+          max: 20
+          multiple: .25
+          decay: .125
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      x:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Km6dVb"
+        buffer:
+          max: 12
+          multiple: .25
+          decay: .125
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      y:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: -1
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f RmvCNS"
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+    autoblock:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f vooqtY"
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f V4FILv"
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f jL75dL"
+        buffer:
+          max: 2
+          multiple: .5
+          decay: .5
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      d:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 3V6KZi"
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+    # AutoClicker checks not really recommended for banning since you can't ever be 100% certain, if you crank up
+    # the violations you should be fine but it's all just probability / statistics.
+    autoclicker:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f OrWBVr"
+        max-cps: 25
+      b:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f tcwZSi"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .5
+      c:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f diUEH1"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: 1
+      d:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f m7SOCr"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .5
+      e:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 62yTlS"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .75
+      f:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f aBGmya"
+        buffer:
+          max: 4
+          multiple: .5
+          decay: 1.25
+      g:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 63q6pw"
+        buffer:
+          max: 5
+          multiple: .25
+          decay: 1.25
+      h:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f QmklKE"
+        buffer:
+          max: 4
+          multiple: .5
+          decay: 1
+      i:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f sc3Wv4"
+        buffer:
+          max: 5
+          multiple: .5
+          decay: 1.25
+      j:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 8hqzf0"
+        buffer:
+          max: 4
+          multiple: .5
+          decay: 1.25
+      k:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f V2WlBB"
+        buffer:
+          max: 4
+          multiple: .5
+          decay: .75
+      l:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 69PgY7"
+        buffer:
+          max: 4
+          multiple: .25
+          decay: 1
+      m:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f HnOy0M"
+        buffer:
+          max: 4
+          multiple: .25
+          decay: .75
+      n:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f w1xxTg"
+        buffer:
+          max: 25
+          multiple: .15
+          decay: .75
+      o:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 0VTJaC"
+        buffer:
+          max: 5
+          multiple: .25
+          decay: 1.25
+      p:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f pVi7Si"
+        buffer:
+          max: 2
+          multiple: .25
+      q:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f EmYSE5"
+        buffer:
+          max: 35
+          multiple: .3
+          decay: 2.0
+      r:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f kFqijq"
+        buffer:
+          max: 50
+          multiple: .15
+          decay: 10
+      s:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f F3nRq5"
+        buffer:
+          max: 30
+          multiple: .15
+          decay: .825
+      t:
+        enabled: true
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f ADyupc"
+        buffer:
+          max: 25
+          multiple: .15
+          decay: .75
+        min-kurtosis: 13
+    reach:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 8
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f WVjzfd"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .035
+        max-reach: 3.03
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f i03MYp"
+        buffer:
+          max: 6
+          multiple: .25
+          decay: .225
+        max-reach: 3.15
+    fastbow:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f ufBqwP"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .125
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+    criticals:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f cb49cf"
+        buffer:
+          max: 1
+          multiple: .5
+          decay: .05
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f ADPi3v"
+        buffer:
+          max: 1
+          multiple: .5
+          decay: .05
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+    killaura:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f AsYx81"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .5
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f CtPWe6"
+        buffer:
+          max: 5
+          multiple: .6
+          decay: .5
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f e6mIVM"
+        buffer:
+          max: 2
+          multiple: .5
+          decay: .25
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+      d:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f tmuIhv"
+      f:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f yZZYiV"
+        buffer:
+          max: 10
+          multiple: .25
+          decay: 2
+      h:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f qDCPVD"
+      j:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f rLnTm0"
+        buffer:
+          max: 1
+          multiple: .5
+          decay: .5
+      k:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f bOjCnx"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .75
+      l:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f EpNphl"
+        buffer:
+          max: 5
+          multiple: .6
+          decay: .5
+        hotbar-shuffle:
+          enabled: false
+          minimum-vl-to-shuffle: 2
+          shuffle-every: 2
+        random-rotation:
+          enabled: false
+          minimum-vl-to-randomly-rotate: 2
+          rotate-every: 2
+    hitbox:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f ya3Y4v"
+        buffer:
+          max: 4
+          multiple: .25
+          decay: .125
+        max-angle: .36
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f F5l5oq"
+        buffer:
+          max: 6
+          multiple: .25
+          decay: .125
+        max-angle: 45
+    velocity:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f F2ZtET"
+        buffer:
+          max: 2
+          multiple: .25
+          decay: .075
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f xgEmJU"
+        buffer:
+          max: 4
+          multiple: .35
+          decay: .125
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 8baBRO"
+        buffer:
+          max: 5
+          multiple: .25
+          decay: .175
+      d:
+        enabled: false
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f P5Yoto"
+        buffer:
+          max: 4
+          multiple: .25
+          decay: .05
+  movement:
+    noslow:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f qCvRN7"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .15
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f GEaJPz"
+        buffer:
+          max: 7
+          multiple: .25
+          decay: .075
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Eg7Swu"
+        buffer:
+          max: 7
+          multiple: .25
+          decay: .15
+      d:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f la4KaX"
+        buffer:
+          max: 7
+          multiple: .25
+          decay: .15
+      e:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 0s9FfS"
+        buffer:
+          max: 7
+          multiple: .25
+          decay: .15
+    motion:
+      a:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f ku0teM"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .25
+      b:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f meGEOc"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .25
+      c:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 6K5GlD"
+        buffer:
+          max: 1
+          multiple: .5
+          decay: .05
+      d:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f ZGOm3E"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .05
+      e:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f JiIvDi"
+        buffer:
+          max: 1
+          multiple: .5
+          decay: .05
+      g:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f UZUgdi"
+        buffer:
+          max: 2
+          multiple: .25
+          decay: .15
+      h:
+        enabled: false
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f mucDkJ"
+        buffer:
+          max: 4
+          multiple: .25
+          decay: .15
+    jump:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f RfNGaL"
+        buffer:
+          max: 2
+          multiple: .25
+          decay: .15
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 3ihokZ"
+        buffer:
+          max: 2
+          multiple: .25
+          decay: .15
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Txim9D"
+        buffer:
+          max: 2
+          multiple: .25
+          decay: .15
+    step:
+      a:
+        enabled: true
+        punishable: true
+        setback: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f tVvVkP"
+      b:
+        enabled: true
+        punishable: true
+        setback: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f hg1JEs"
+        buffer:
+          max: 6
+          multiple: .25
+          decay: .35
+      c:
+        enabled: true
+        punishable: true
+        setback: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f o4FIBM"
+        buffer:
+          max: 4
+          multiple: .25
+          decay: .1
+    boatfly:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f lD5PZt"
+        buffer:
+          max: 4
+          multiple: .33
+          decay: .125
+        kick-out: false
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f g0vvwL"
+        buffer:
+          max: 5
+          multiple: .25
+          decay: .25
+        kick-out: false
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f jURNHQ"
+        buffer:
+          max: 5
+          multiple: .25
+          decay: .125
+        kick-out: false
+    entityflight:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f CmXzd4"
+        buffer:
+          max: 5
+          multiple: .5
+          decay: .25
+        kick-out: false
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f LjAijM"
+        buffer:
+          max: 5
+          multiple: .5
+          decay: .25
+    antilevitation:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f lv3O6x"
+        buffer:
+          max: 8
+          multiple: .25
+          decay: .075
+    nosaddle:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 8J0Sp0"
+        buffer:
+          max: 6
+          multiple: .5
+          decay: .125
+    entityspeed:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f qMDJRh"
+        buffer:
+          max: 5
+          multiple: .5
+          decay: .25
+        kick-out: false
+        min-difference: .01
+    elytra:
+      a:
+        enabled: true
+        punishable: true
+        setback: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f D7TtGm"
+        buffer:
+          max: 1
+          multiple: .5
+          decay: .25
+        max-speed: 4.25
+      b:
+        enabled: true
+        punishable: true
+        setback: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f JNrlAk"
+        buffer:
+          max: 8
+          multiple: .25
+          decay: .125
+      c:
+        enabled: true
+        punishable: true
+        setback: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Kdz1Wc"
+        buffer:
+          max: 6
+          multiple: .5
+          decay: .125
+      f:
+        enabled: true
+        punishable: true
+        setback: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f qkVzfb"
+        buffer:
+          max: 6
+          multiple: .25
+          decay: .125
+      g:
+        enabled: true
+        punishable: false
+        setback: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 25
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 4PNK5Y"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .1
+      i:
+        enabled: true
+        punishable: true
+        setback: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f EOcLJB"
+        buffer:
+          max: 4
+          multiple: .25
+          decay: .1
+      k:
+        enabled: true
+        punishable: true
+        setback: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f CwBbaZ"
+        buffer:
+          max: 4
+          multiple: .25
+          decay: .1
+      l:
+        enabled: true
+        punishable: true
+        setback: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f t7o2BB"
+        buffer:
+          max: 4
+          multiple: .25
+          decay: .1
+      m:
+        enabled: true
+        punishable: true
+        setback: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 7VMOFu"
+        buffer:
+          max: 4
+          multiple: .25
+          decay: .1
+      n:
+        enabled: false
+        punishable: false
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 2
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 2mDwdj"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .045
+    speed:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations:  3
+        alert-interval: 1
+        dont-alert-until: 2
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f lIE9Y2"
+        buffer:
+          max: 5
+          multiple: .35
+          decay: .125
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 2
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 9sXVGk"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .045
+        min-difference: .0025
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 2
+        dont-alert-until: 2
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f ZcNW82"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .045
+        min-difference: .001
+      d:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 2
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f mOhPg0"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .045
+        min-difference: .0025
+      e:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 2
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f oyZqNf"
+        buffer:
+          max: 2
+          multiple: .25
+          decay: .025
+    fastclimb:
+      a:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 9m1lJH"
+        buffer:
+          max: 4
+          multiple: .5
+          decay: .125
+    wallclimb:
+      a:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 4vPAgy"
+        buffer:
+          max: 4
+          multiple: .35
+          decay: .225
+    jesus:
+      a:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 2
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f J8v1Xf"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .025
+      b:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 2
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f rLwPSY"
+        buffer:
+          max: 4
+          multiple: .5
+          decay: .175
+      c:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 2
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f lPpeU0"
+        buffer:
+          max: 10
+          multiple: .45
+          decay: .75
+      d:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f A0KjOY"
+        buffer:
+          max: 4
+          multiple: .45
+          decay: .175
+      e:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 2
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f kqBODW"
+        buffer:
+          max: 10
+          multiple: .25
+          decay: .175
+    flight:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 5
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 30
+        alert-interval: 2
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f mL7onf"
+        buffer:
+          max: 3
+          multiple: .65
+          decay: .275
+        # Whether or not this check should be disabled for suspected ghost blocks - enabling this will make these checks prone
+        # to be bypasses by certain fly modules which spoof onGround values as if the player were on a ghost block, so if you enable
+        # this make sure to enable setbacks for ghost-blocks in the ghost-blocks-fix section.
+        ignore-ghost-blocks: true
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 5
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 30
+        alert-interval: 2
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f I2DRpD"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .275
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 5
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 30
+        alert-interval: 2
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f EWdMtj"
+        buffer:
+          max: 4
+          multiple: .75
+          decay: .225
+        # Whether or not this check should be disabled for suspected ghost blocks - enabling this will make these checks prone
+        # to be bypasses by certain fly modules which spoof onGround values as if the player were on a ghost block, so if you enable
+        # this make sure to enable setbacks for ghost-blocks in the ghost-blocks-fix section.
+        ignore-ghost-blocks: true
+      d:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 5
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 30
+        alert-interval: 2
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 6gwOgE"
+        buffer:
+          max: 4
+          multiple: .35
+          decay: .275
+        # Whether or not this check should be disabled for suspected ghost blocks - enabling this will make these checks prone
+        # to be bypasses by certain fly modules which spoof onGround values as if the player were on a ghost block, so if you enable
+        # this make sure to enable setbacks for ghost-blocks in the ghost-blocks-fix section.
+        ignore-ghost-blocks: true
+      e:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 5
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 30
+        alert-interval: 2
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f fizzLw"
+        buffer:
+          max: 3
+          multiple: .4
+          decay: .5
+        # Whether or not this check should be disabled for suspected ghost blocks - enabling this will make these checks prone
+        # to be bypasses by certain fly modules which spoof onGround values as if the player were on a ghost block, so if you enable
+        # this make sure to enable setbacks for ghost-blocks in the ghost-blocks-fix section.
+        ignore-ghost-blocks: true
+      f:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 5
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 30
+        alert-interval: 2
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f rpkaIS"
+        buffer:
+          max: 2
+          multiple: .4
+          decay: .04
+    vclip:
+      a:
+        enabled: true
+        punishable: false
+        setback: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 2eQkYZ"
+    sprint:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f DJQ8Cr"
+        buffer:
+          max: 6
+          multiple: .25
+          decay: .4
+    strafe:
+      a:
+        enabled: true
+        punishable: true
+        setback: true
+        min-vl-to-setback: 1
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 2
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 335bue"
+        buffer:
+          max: 2
+          multiple: .5
+          decay: .05
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f EeLO6B"
+        buffer:
+          max: 4
+          multiple: .15
+          decay: .075
+  player:
+    fastuse:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f ktWxMd"
+    fastplace:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 9Yjq4L"
+        max-blocks: 15
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Kk67YW"
+        buffer:
+          max: 1
+          multiple: .25
+          decay: .5
+        max-blocks: 4
+    fastbreak:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f C1bUnY"
+        buffer:
+          max: 2
+          multiple: .25
+          decay: .5
+        min-difference: -125
+    tower:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f R5x9Xh"
+        buffer:
+          max: 4
+          multiple: .5
+          decay: .75
+    scaffold:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f BwJMwf"
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f PTOZwP"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .25
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f zIy99j"
+        buffer:
+          max: 2
+          multiple: .25
+          decay: .5
+      d:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f ALyIzf"
+        buffer:
+          max: 4
+          multiple: .25
+          decay: .5
+      e:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 5YGdmT"
+        buffer:
+          max: 4
+          multiple: .25
+          decay: .5
+      f:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f JQq9Nd"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .1
+      g:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f jxaXIs"
+        buffer:
+          max: 2
+          multiple: .25
+          decay: .25
+      h:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f MjTE7J"
+        buffer:
+          max: 8
+          multiple: .25
+          decay: .35
+      i:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f RxBZXy"
+      j:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f CVQFFS"
+      k:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f aZmplb"
+        buffer:
+          max: 1
+          multiple: .5
+          decay: .35
+        max-blocks: 6
+      m:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Qyu6u6"
+        buffer:
+          max: 1
+          multiple: .5
+          decay: .25
+      n:
+        enabled: false
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Pps5QU"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .25
+      o:
+        enabled: false
+        punishable: false
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 9utv4c"
+    timer:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 2
+        dont-alert-until: 3
+        maximum-ping: 100000
+        minimum-tps: 19.8
+        punishment-commands:
+          - "minecraft:kick %player% Internal Exception: io.netty.handler.timeout.ReadTimeoutException"
+        buffer:
+          max: 35
+          multiple: .425
+          decay: 1.85
+        max-speed: 1.05
+      d:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 35
+        alert-interval: 2
+        dont-alert-until: 8
+        maximum-ping: 100000
+        minimum-tps: 19.8
+        punishment-commands:
+          - "minecraft:kick %player% Internal Exception: io.netty.handler.timeout.ReadTimeoutException"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .25
+        max-balance: 75
+    baritone:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 4PxIA3"
+        buffer:
+          max: 20
+          multiple: .5
+          decay: .25
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f KtRtuZ"
+        buffer:
+          max: 2
+          multiple: .5
+          decay: .05
+    ghosthand:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 9LODWa"
+        cancel: true
+    airplace:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f nkBMMH"
+    badpackets:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 8hSD9S"
+        buffer:
+          max: 2
+          multiple: .5
+          decay: .25
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f C303rY"
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f fvOk3D"
+      d:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f zm0AUS"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .01
+      e:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f bvgn4l"
+      f:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f MGlX6e"
+      g:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f lKGql4"
+      h:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Hlub6N"
+      i:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f xM9EJe"
+      j:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f ovgPGy"
+      k:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f LNSRoR"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .4
+      m:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f trp6tO"
+        buffer:
+          max: 5
+          multiple: .33
+          decay: .25
+      n:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f zIwBJY"
+        buffer:
+          max: 20
+          multiple: .25
+          decay: 2.5
+      o:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f zkv7vA"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .15
+      p:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f gfUM8V"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .15
+      q:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f GiAtpl"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .15
+      r:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f yAy1gx"
+        buffer:
+          max: 6
+          multiple: .5
+          decay: .25
+      s:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f MB0Vwj"
+      t:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f ONUSlt"
+      u:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 2NuD8Y"
+      v:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f vLsgNz"
+        buffer:
+          max: 8
+          multiple: .5
+          decay: .075
+        kick-out: false
+      w:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f PFEsIx"
+        buffer:
+          max: 8
+          multiple: .5
+          decay: .75
+      x:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f mzgxKg"
+        buffer:
+          max: 6
+          multiple: .5
+          decay: .35
+      y:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Luyq8f"
+      z:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f SzVMwW"
+      1:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f iu6vkF"
+        buffer:
+          max: 12
+          multiple: .25
+          decay: .25
+      2:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f twzrIy"
+        buffer:
+          max: 12
+          multiple: .25
+          decay: .25
+      4:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 1FoqYz"
+        buffer:
+          max: 4
+          multiple: .25
+          decay: .025
+      5:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f GyMA7t"
+      6:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Shurik"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .05
+      7:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f etvRMR"
+        buffer:
+          max: 10
+          multiple: .25
+          decay: .05
+      8:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f rVIMot"
+        buffer:
+          max: 5
+          multiple: .25
+          decay: .05
+    inventory:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Q7KBtv"
+        buffer:
+          max: 2
+          multiple: .25
+          decay: .25
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Beu6nT"
+        buffer:
+          max: 2
+          multiple: .25
+          decay: .25
+    invalid:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 8
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 0zhiEB"
+        buffer:
+          max: 2
+          multiple: .25
+          decay: .05
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 8
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f SM22CD"
+        buffer:
+          max: 3
+          multiple: .25
+          decay: .045
+      d:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 10
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f sR3gkS"
+        buffer:
+          max: 8
+          multiple: .25
+          decay: .5
+      e:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 8
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f KNBxaB"
+        buffer:
+          max: 1
+          multiple: .5
+          decay: .01
+      f:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f ZnfMjG"
+        buffer:
+          max: 1
+          multiple: .5
+          decay: .01
+      g:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 3urZWq"
+        buffer:
+          max: 2
+          multiple: .5
+          decay: .025
+      h:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f gqIKTx"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .05
+      i:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Pfj0pO"
+        buffer:
+          max: 3
+          multiple: .5
+          decay: .05
+      j:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        setback: true
+        min-vl-to-setback: 1
+        broadcast-punishment: false
+        max-violations: 2
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f R3IqbU"
+        buffer:
+          max: 1
+          multiple: .5
+          decay: .05
+    groundspoof:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f g9vNkY"
+        buffer:
+          max: 4
+          multiple: .5
+          decay: .125
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 5
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f cIvnlB"
+        buffer:
+          max: 4
+          multiple: .5
+          decay: .125
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 3
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Bb7G9K"
+        buffer:
+          max: 4
+          multiple: .5
+          decay: .125
+    improbable:
+      a:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f Ivy8Dv"
+        max-combat-violations: 25
+      b:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 7e7rzs"
+        max-movement-violations: 30
+      c:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f gibONt"
+        max-player-violations: 30
+      d:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f uWDALU"
+        max-autoclicker-violations: 30
+      e:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f u9rwy4"
+        max-total-violations: 50
+      f:
+        enabled: true
+        punishable: true
+        discord-alert-interval: 1
+        broadcast-punishment: false
+        max-violations: 1
+        alert-interval: 1
+        dont-alert-until: 1
+        maximum-ping: 100000
+        minimum-tps: 19.0
+        punishment-commands:
+          - "kick %player% &4|&cAAC&4| &4- &f 4CQtfH"
+        max-scaffold-violations: 25

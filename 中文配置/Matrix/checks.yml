@@ -1,0 +1,330 @@
+#杀戮检测
+killaura:
+  #开关
+  enable: true
+  modules:
+    flaw:
+      type_a:
+        enable: true
+        vl: 3
+      type_b:
+        enable: true
+        vl: 10
+      type_c:
+        enable: true
+        vl: 10
+      type_d:
+        enable: true
+        vl: 10
+      type_e:
+        enable: true
+        vl: 5
+    rotation:
+      type_a:
+        enable: true
+        vl: 2
+      type_b:
+        enable: true
+        vl: 2
+    aimbot:
+      vl_weight: 7
+      cancel_hit: true
+
+      check_aimbot_sync: true
+      check_aimbot_shake: true
+      check_aimbot_snap: true
+      check_aimbot_sensitivity: true
+      check_aimbot_acceleration: true
+      check_aimbot_bad_rotation: true
+    npc:
+      enable: true
+      vl_weight: 5
+      async: true
+      real_entity_id: true
+      spawn_on_attack_player: true
+      only_command_trigger: true
+      visible: true
+      force_random_name: false
+      check_ticks:
+        base: 100
+        attack_add: 20
+        hit_bot_add: 50
+      movement:
+        distance_base: 3.1
+        distance_random_size: 0.80
+        distance_attack_base: 3.0
+        move_up_after_attack: false
+        max_speed: 0.6
+    critical:
+      enable: true
+      vl_weight: 5
+      cancel_attack: true
+    strafe:
+      enable: true
+      vl_weight: 3
+      cancel_move: true
+    combine:
+      aimbot_with_reach:
+        time: 5000
+        condition:
+          - "ka.abt.magic"
+          - "hb.reach"
+          - "hb.reach"
+        action: 5
+
+  decay:
+    interval: 15
+    amount: 5
+  commands:
+    10: "matrix npc %player% 100"
+    20: "matrix notify %gp_warn% (%gp_c_k%) #1"
+    30: "matrix notify %gp_warn% (%gp_c_k%) #2"
+    45: "%gp_d_k% %gp_c_k%"
+
+#碰撞箱检测
+hitbox:
+  enable: true
+  max_reach: 3.15
+  trace_back_length: 8
+  strict_mode: true
+  raycast: false
+  cancel_way: silent
+  cancel_vl: 5
+  vl_weights:
+    miss_player_hitbox: 2
+    reach_target_standing: 10
+    reach_target_moving: 3
+  dynamic_vl:
+    enable: true
+    expander: 10
+    min_vl: 3
+    max_vl: 8
+  max_burst_vl: 15
+  decay:
+    interval: 15
+    amount: 5
+  commands:
+    10: "matrix notify %gp_warn% (%gp_h_b%) #1"
+    12: "matrix npc %player% 120"
+    18: "matrix notify %gp_warn% (%gp_h_b%) #2"
+    24: "%gp_d_k% %gp_h_b%"
+#连点检测
+click:
+  enable: true
+  max_cps: 18
+  check_cps: true
+  check_swing: true
+  check_timing: true
+  dynamic_cps_vl_weight: true
+  buffer_size: 20
+  decay:
+    interval: 15
+    amount: 5
+  commands:
+    30: "%gp_f_k% %gp_c_s%"
+
+#移动检测
+move:
+  enable: true
+  check_noslow: true
+  check_nofall: true
+  cancel_vl: 35
+  apply_damage: true
+  allow_bpe_bridge: false
+  check_flying_players: true
+  check_inventory_move: true
+  allow_setback_to_void: true
+  decay:
+    interval: 10
+    amount: 45
+  commands:
+    260: "%gp_f_k% %gp_m_s%"
+#错误数据包检测
+badpackets:
+  enable: true
+  check_air_place: true
+  decay:
+    interval: 15
+    amount: 60
+  cancel_vl: 3
+  commands:
+    240: "%gp_f_k% %gp_b_p%"
+
+delay:
+  enable: true
+  cancel_action: true
+  check_healing: 1
+  check_using_items: 1
+  check_using_bow: 1
+  check_auto_splash: 2
+  check_inventory_action: 1
+  check_auto_totem: 1
+  check_fast_throw: 1
+  decay:
+    interval: 15
+    amount: 2
+  commands:
+    10: "%gp_f_k% %gp_d_a%"
+#方块交互检测
+block:
+  enable: true
+  #小游戏服改回默认值：5
+  cancel_vl: -1
+  modules:
+    fastbreak:
+      enable: true
+      vl_weight: 4
+    fastplace:
+      enable: true
+      vl_weight: 1
+      max_place_per_second: 9
+    noswing:
+      enable: true
+      vl_weight: 1
+    abort:
+      enable: true
+      vl_weight: 0
+  decay:
+    interval: 15
+    amount: 8
+  commands:
+    10: "matrix notify %gp_warn% (%gp_b_bp%) #1"
+    20: "%gp_f_k% %gp_b_bp%"
+#自动搭路检测
+scaffold:
+  enable: true
+  cancel_vl: 20
+  modules:
+    place:
+      enable: true
+      vl_weight: 10
+      check_jump: true
+    delay:
+      enable: true
+      vl_weight: 10
+      cancel_place: true
+      min_delay: 6
+      min_delay_diagonal: 3
+    right_cps:
+      enable: true
+      vl_weight: 5
+      max_cps: 22
+    tower:
+      enable: true
+      vl_weight: 2
+  decay:
+    interval: 15
+    amount: 6
+  commands:
+    10: "matrix notify %gp_warn% (%gp_s_f%) #1"
+    24: "%gp_f_k% %gp_s_f%"
+#水上行走检测
+jesus:
+  enable: true
+  #小游戏服改回默认值：15
+  cancel_vl: -1
+  ignore_swim_pose: false
+  decay:
+    interval: 10
+    amount: 10
+  commands:
+    20: "matrix notify %gp_warn% (%gp_j_w%) #1"
+    40: "%gp_f_k% %gp_j_w%"
+#反击退检测
+velocity:
+  enable: true
+  wait_time: 20
+  ignore_lag: true
+  modules:
+    respond: 5
+    analyser: 3
+    vertical: 1
+  decay:
+    interval: 20
+    amount: 3
+  commands:
+    10: "matrix notify %gp_warn% (%gp_k_b%) #1"
+    20: "%gp_f_k% %gp_k_b%"
+
+#聊天刷屏检测
+chat:
+  enable: true
+  min_time: 3
+  cancel_vl: 3
+  decay:
+    interval: 30
+    amount: 5
+  commands:
+    4: "matrix notify %player% is spamming the chat (ChatSpam)"
+    10: "matrix kick %player% 放慢你的聊天速度"
+
+#异常点击检测
+interact:
+  enable: true
+  #出现问题改回默认值：v1
+  mode: "v2"
+  #出现问题关闭此选项
+  strict: true
+  check_interact_block: true
+  check_attack: true
+  decay:
+    interval: 10
+    amount: 5
+  commands:
+    10: "matrix notify %gp_warn% (%gp_i_s%) #1"
+    20: "%gp_f_k% %gp_i_s%"
+
+#穿墙检测
+phase:
+  enable: true
+  freeze_time: 450
+  cancel_vl: 5
+  exclude_types: []
+  decay:
+    interval: 15
+    amount: 10
+  commands:
+    7: "matrix notify %%gp_warn% (%gp_p_s%) #1"
+#自动机器人
+autobot:
+  enable: true
+  decay:
+    interval: 15
+    amount: 2
+  commands:
+    5: "matrix notify %player% 触发了自动机器人特征 (AutoBot) #1"
+    10: "matrix notify %player% 再次触发了自动机器人特征 (AutoBot) #2"
+    15: "matrix kick %player% 自动机器人"
+#鞘翅检测
+elytra:
+  enable: true
+  force_setback: true
+  #小游戏服改回默认值：5
+  setback_vl: -1
+  unequip_vl: 50
+  decay:
+    interval: 15
+    amount: 7
+  commands:
+    40: "matrix kick %player% Elytra Flight"
+
+#载具检测
+vehicle:
+  enable: true
+  deny_entity_types_as_vehicle:
+    - "LLAMA"
+  speed:
+    enable: true
+    setback_vl: 2
+  flight:
+    enable: true
+    setback_vl: 4
+    leave_vehicle: 10
+  decay:
+    interval: 15
+    amount: 5
+
+  # Violation Thresholds
+  # number_of_violations: '<command>'
+  commands:
+    15: "matrix kick %player% 异常载具行为"

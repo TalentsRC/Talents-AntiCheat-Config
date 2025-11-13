@@ -1,0 +1,29 @@
+check_update: true
+#填写你的token以激活matrix
+access_token: ""
+permission_refresh_interval: 15
+bungee_geysermc_support: false
+kick_strike_lightning: true
+
+# Discord Webhook
+discord_webhook:
+  # Enable Discord Webhook
+  enable: false
+
+  # Webhook URL
+  url: ""
+
+tps_protection:
+  enable: true
+  min_tps: 17.0
+  lag_threshold: 3000
+log_file: true
+delete_time: 30
+disable_bypass_permission: true
+relog_time: 5
+anti-health-indicator: true
+ping-obfuscation: true
+disabled_components:
+  - "example entry"
+custom_vl_weight:
+  - "example_component:5"

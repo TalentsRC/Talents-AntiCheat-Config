@@ -1,0 +1,109 @@
+#### Matrix Config - language.yml ##################################################
+#
+#     Hi, welcome to use Matrix anti-cheat, this is language.yml, which is used
+#  to define the display language of anti-cheat. Here you can define what message
+#  the anti-cheat displays.
+#
+#  - If you encounter any problems, please go to our official Discord
+#  group for help: https://discord.gg/pEvY55J
+#
+#  Anyway, thanks for using Matrix anticheat! ❤
+#
+#####################################################################################
+
+# You can define the message prefix here
+prefix: "&7[&e&lMatrix&r&7]&r "
+
+# Define the announcement message after the player is kicked out by anti-cheating
+kick-format: "玩家 %player% 因为作弊被踢出!"
+
+# Define the verbose message format
+verbose-format: "&7%player% 触发 &2%check% &7检测&8| &7%message%(%tooltips%) &8| &7vl:%vl%&b(+%add_vl%) &7延迟:%ping% tps:%tps% component: %component% 版本: %version%"
+
+# Should Matrix broadcast a message when a player is kicked?
+kick-broadcast: true
+
+# What message should send to the player when Matrix detects
+# that the player is sending chat messages too fast?
+spam-warning: "放慢你的聊天速度!"
+
+# Defines the message that matrix blocks it when the player tries to quickly
+# reconnect to the server after being kicked out by the anti-cheat
+relog-message: "你需要等待 %time_left% 秒后才能重新加入服务器!"
+
+# Global Placeholders, you can define constants here, you can use them in checks.yml
+#
+#  For example, define:
+#     kick_help: "If you think it's a false positive, you can contact the Mod to solve the false kick"
+#  then you can use %gp_kick_help% in checks.yml, It will be automatically replaced with this sentence
+#
+global_placeholder:
+  d_k: "matrix delay 10 matrix kick %player%"
+  f_k: "matrix kick %player%"
+  warn: "%player% 触发了检测"
+  c_k: "杀戮光环"
+  h_b: "碰撞箱增大"
+  c_s: "点击速度过快"
+  m_s: "异常移动"
+  b_p: "错误数据包"
+  d_a: "异常行为"
+  b_bp: "错误的方块放置/破坏"
+  s_f: "自动搭路"
+  j_w: "水上行走"
+  k_b: "反击退"
+  i_s: "异常交互"
+  p_s: "穿墙"
+
+# Define the component alias
+component_alias: {}
+
+# Define Commands description
+commands:
+  verbose: "启用/禁用 高级日志信息输出"
+  notify: "发送消息给服务器上的OP"
+  toggle-notify: "是否接收Matrix给op发送的在线消息"
+  npc: "对玩家生成假人以检测杀戮光环"
+  kick: "使用Matrix的踢出功能踢出玩家"
+  msg: "发送警告消息给玩家"
+  gui: "打开控制面板"
+  violations: "打开违规面板"
+  ping: "获取玩家的延迟"
+  cps: "获取玩家的点击速度"
+  reload: "重新加载配置文件"
+
+gui:
+  main:
+    toggle-checks:
+      name: "&a启用检测"
+      description: "&7点击打开检测页面"
+    show-violations:
+      name: "&a显示违规"
+      description: "&7点击打开违规页面"
+    toggle-verbose:
+      name: "&a输出高级日志信息"
+      description: "&7点击启用/禁用 高级日志信息的输出"
+    reload-matrix:
+      name: "&c重新加载Matrix"
+      description: "&7重新加载插件"
+    server-status:
+      name: "&b服务器状态"
+    support-links:
+      name: "&b支持链接"
+    premium-user:
+      name: "&b高级用户"
+    close-gui:
+      name: "&c关闭菜单"
+
+misc:
+  update:
+    start-checking: "正在检测更新...."
+    updater: "§a> Matrix有更新:"
+    has-update: "§cMatrix 最新版本: §f%latest%  §c当前版本 version: §2%current%"
+    latest: "§a你正在运行最新的 Matrix-AntiCheat <3"
+    download-link: "§c下载链接"
+  premium:
+    pass: "Premium version verification has passed!"
+    expire-time: "Expire Time: %time%"
+  reload:
+    start-reload: "重新加载Matrix..."
+    reloaded: "Matrix重新加载."
